@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './ButtonStyles.module.scss';
 import {LuLoader2} from "react-icons/lu";
+import Counter from "../Counter/Counter";
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     styleButton?: 'primary' | 'secondary';
     size?: 28 | 36 | 56;
@@ -42,7 +43,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         const styleClass = buttonStyles.styles[styleButton];
         const sizeClass = buttonStyles.sizes[size];
-        const counterClass = counter ? 'relative' : '';
+        const counterClass = counter ? 'relative' : null;
 
         const classes = `${buttonStyles.base} ${styleClass} ${sizeClass} ${counterClass} ${className} ${state === 'loading' && styles.buttonLoadingGradient}`;
 
@@ -53,7 +54,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             opacity: isClicked ? 0.2 : 0,
             transition: 'transform 500ms cubic-bezier(0, -0.3, 0.5, 1.3), opacity 500ms cubic-bezier(0, -0.3, 0.5, 1.3)',
         };
-
+        const colorCounter = styleButton === 'primary' ? 'rgba(255, 255, 255, 0.12)' : '';
+        const sizeCounter = 16;
         return (
             <button
                 ref={ref}
@@ -68,7 +70,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                     <span className={styles.text}>
                         {label}
                     </span>
-                    {counter && <span className={styles.counter}>3</span>}
+                    {counter && <Counter styleCounter={styleButton}  size={size === 56 ? 24 : size === 36 ? 20 : 16} quantity='3' colorCounter={colorCounter}/>}
                 </div>
                 <span
                     className={styles.buttonPressed}

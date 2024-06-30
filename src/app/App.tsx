@@ -42,7 +42,7 @@ function App() {
                     counter={true}
                     styleButton='primary'
                     onClick={() => eventHandler('loading')}
-                    size={28}
+                    size={56}
                     label='Что сделать'
                     state={stateButton}
                 />
@@ -58,7 +58,7 @@ function App() {
                 display: 'flex', justifyContent: 'center', alignItems: 'center'
             }}>
                 <Counter
-                    styleCounter='secondary'
+                    styleCounter='primary'
                     quantity='23'
                     size={8}
                     pulse={true}
