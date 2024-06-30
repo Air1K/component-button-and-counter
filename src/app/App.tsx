@@ -60,7 +60,7 @@ function App() {
                 <Counter
                     styleCounter='primary'
                     quantity='23'
-                    size={8}
+                    size={12}
                     pulse={true}
                 />
             </div>

@@ -55,7 +55,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             transition: 'transform 500ms cubic-bezier(0, -0.3, 0.5, 1.3), opacity 500ms cubic-bezier(0, -0.3, 0.5, 1.3)',
         };
         const colorCounter = styleButton === 'primary' ? 'rgba(255, 255, 255, 0.12)' : '';
-        const sizeCounter = 16;
         return (
             <button
                 ref={ref}

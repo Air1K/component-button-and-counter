@@ -24,11 +24,12 @@ const counterStyles = {
     },
 };
 
-const Counter: FC<CounterProps> = ({styleCounter = 'secondary', size = 24, stroke = false, quantity, pulse = false, colorCounter}) => {
+const Counter: FC<CounterProps> = ({styleCounter = 'secondary', size = 24, stroke = false, quantity, pulse = false, colorCounter }) => {
     const styleClass = counterStyles.styles[styleCounter];
     const sizeClass = counterStyles.sizes[size];
-    const pulseClass = pulse && (size === 8 || size === 12)  ? styles.pulse : '';
+    const pulseClass = pulse && (size === 8 || size === 12) ? styles.pulse : '';
     const classes = `${styles.counter} ${styleClass} ${sizeClass}`;
+    console.log(colorCounter)
     return (
         <div className={classes} style = {colorCounter ? {backgroundColor: colorCounter} : {}}>
             {(size !== 12 && size !== 8) &&
@@ -36,7 +37,17 @@ const Counter: FC<CounterProps> = ({styleCounter = 'secondary', size = 24, strok
                     {(quantity > 99) ? '99+' : (typeof quantity === 'string' && quantity.length > 3) ? quantity.slice(0, 3) : quantity}
                 </div>
             }
-            <div className={pulseClass} style = {colorCounter ? {backgroundColor: colorCounter} : {}}/>
+            <div className={`${pulseClass} ${colorCounter ? styles.customPulse : ''}`}>
+
+                {colorCounter && pulse ? (<style>
+                    {`
+                          .${styles.customPulse}::before,
+                          .${styles.customPulse}::after {
+                            background-color: ${colorCounter} !important;
+                          }
+                    `}
+                </style>) : ''}
+            </div>
         </div>
     );
 };
