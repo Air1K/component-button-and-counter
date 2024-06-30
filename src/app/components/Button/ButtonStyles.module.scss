@@ -1,0 +1,225 @@
+.button {
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 500ms cubic-bezier(0, -0.3, 0.5, 1.3);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 45%;
+    left: -10%;
+    width: 10%;
+    aspect-ratio: 1 / 1;
+    background: currentColor;
+    transform: scale(0);
+    transform-origin: center center;
+    border-radius: calc(100% / 2);
+    opacity: 0;
+    transition: transform 500ms cubic-bezier(0, -0.3, 0.5, 1.3), opacity 500ms cubic-bezier(0, -0.3, 0.5, 1.3);
+    z-index: 1;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    animation-timing-function: cubic-bezier(0, -0.3, 0.5, 1.3);
+    transition-duration: 500ms;
+    .counter{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+      border-radius: 50%;
+    }
+    .text{
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 1; /* number of lines to show */
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .contentHidden{
+    opacity: 0;
+  }
+
+  &:hover::before {
+    opacity: 0.12;
+    transform: scale(22);
+  }
+
+  &:hover .content {
+    transform: scale(1);
+  }
+
+  .buttonPressed{
+    position: absolute;
+    background: currentColor;
+    opacity: 0;
+    border-radius: 50%;
+    transform: scale(0);
+    animation-timing-function: cubic-bezier(0, -0.3, 0.5, 1.3);
+    transition-duration: 500ms;
+    width: 10%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .loaderContainer{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+    .loader{
+      color: currentColor;
+      animation: rot 3s linear infinite;
+    }
+
+    @keyframes rot {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    @-webkit-keyframes rot {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .loaderContainerHidden{
+    opacity: 0;
+  }
+
+  .loaderContainerVisible{
+    animation: visibleLoader 500ms cubic-bezier(0, -0.3, 0.5, 1.3);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgb(0, 153, 255);
+    outline-offset: 2px;
+  }
+
+  @keyframes visibleLoader {
+    0% {
+      transform: rotateY(90deg) rotateX(-20deg) translateX(-20px) translateY(10px) translateZ(20px);
+    }
+    100% {
+      transform: rotateY(0deg) rotateX(0deg) translateX(0px) translateY(0px) translateZ(0);
+    }
+  }
+}
+
+.buttonLoadingGradient{
+  &::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: calc(100%/3);
+    opacity: 0.12;
+    background: linear-gradient(90deg, transparent, currentColor 50%, transparent);
+    animation: gradientLoadingAnimation 2s linear infinite;
+  }
+
+  @keyframes gradientLoadingAnimation {
+    0% {
+      transform: translateX(calc(-200%));
+    }
+    100% {
+      transform: translateX(calc(400%));
+    }
+  }
+}
+
+.buttonPrimary {
+  background-color: #FF7700;
+  color: #FFFFFF;
+  .content{
+    .counter{
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+  }
+}
+
+.buttonSecondary {
+  background-color: rgba(131, 102, 86, 0.12);
+  color: rgba(46, 47, 51, 1);
+  .content{
+    .counter{
+      background-color: rgba(131, 102, 86, 0.12);
+    }
+  }
+}
+
+@mixin button-size($size) {
+  $sizes: (
+          28: (font-size: 13px, line-height: 16px, padding: 6px 10px, border-radius: 9.3px, gap: 4px, size: 16px, font-weight-counter: 800, font-size-counter: 11px, letter-spacing-counter: 0.55px, loader-size: 16px),
+          36: (font-size: 15px, line-height: 20px, padding: 8px 12px, border-radius: 12px, gap: 6px, size: 20px, font-weight-counter: 500, font-size-counter: 13px, letter-spacing-counter: normal,  loader-size: 20px),
+          56: (font-size: 17px, line-height: 24px, padding: 16px, border-radius: 16px, gap: 8px, size: 24px, font-weight-counter: 500, font-size-counter: 15px, letter-spacing-counter: normal, loader-size: 24px),
+  );
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  text-align: center;
+
+  @each $key, $value in $sizes {
+    @if $size == $key {
+      font-size: map-get($value, font-size);
+      line-height: map-get($value, line-height);
+      padding: map-get($value, padding);
+      border-radius: map-get($value, border-radius);
+      .content {
+        gap: map-get($value, gap);
+        .counter{
+          width: map-get($value, size);
+          height: map-get($value, size);
+          font-weight: map-get($value, font-weight-counter);
+          font-size: map-get($value, font-size-counter);
+          letter-spacing: map-get($value, letter-spacing-counter);
+        }
+      }
+
+      .loaderContainer{
+        .loader{
+          width: map-get($value, loader-size);
+          height: map-get($value, loader-size);
+        }
+      }
+    }
+  }
+}
+
+.buttonSize28 {
+  @include button-size(28);
+}
+
+.buttonSize36 {
+  @include button-size(36);
+}
+
+.buttonSize56 {
+  @include button-size(56);
+}
